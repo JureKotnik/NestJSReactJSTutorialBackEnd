@@ -1,7 +1,7 @@
-import { IsOptional, IsNotEmpty, IsEmail, Matches } from 'class-validator'
+import { IsEmail, IsNotEmpty, IsOptional, Matches } from 'class-validator'
 import { Match } from 'decorators/match.decorator'
 
-export class CreateUserDto {
+export class RegisterUserDto {
   @IsOptional()
   first_name?: string
 
@@ -12,9 +12,6 @@ export class CreateUserDto {
   @IsEmail()
   email: string
 
-  @IsOptional()
-  role_id?: string
-
   @IsNotEmpty()
   @Matches(/^(?=.*\d)[A-Za-z.\s_-]+[\w~@#$%^&+=`|{}:;!.?"()[\]-]{6,}/, {
     message:
@@ -23,7 +20,6 @@ export class CreateUserDto {
   password: string
 
   @IsNotEmpty()
-  @Match(CreateUserDto, (field) => field.password, { message: 'Passwords do not match.' })
+  @Match(RegisterUserDto, (field) => field.password, { message: 'Passwords do not match.' })
   confirm_password: string
-  //role?: {id: string; name: string}
 }
