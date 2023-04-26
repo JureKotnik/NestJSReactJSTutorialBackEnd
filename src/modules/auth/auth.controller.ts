@@ -1,23 +1,24 @@
 import {
-  Controller,
-  ClassSerializerInterceptor,
-  UseInterceptors,
-  Post,
-  HttpCode,
   Body,
+  ClassSerializerInterceptor,
+  Controller,
+  Get,
+  HttpCode,
   HttpStatus,
-  UseGuards,
+  Post,
   Req,
   Res,
-  Get,
+  UseGuards,
+  UseInterceptors,
 } from '@nestjs/common'
-import { AuthService } from './auth.service'
 import { Public } from 'decorators/public.decorator'
-import { RegisterUserDto } from './dto/register-user.dto'
 import { User } from 'entities/user.entity'
 import { Request, Response } from 'express'
-import { LocalAuthGuard } from './guards/local-auth.guard'
 import { RequestWithUser } from 'interfaces/auth.interface'
+
+import { AuthService } from './auth.service'
+import { RegisterUserDto } from './dto/register-user.dto'
+import { LocalAuthGuard } from './guards/local-auth.guard'
 
 @Controller('auth')
 @UseInterceptors(ClassSerializerInterceptor)

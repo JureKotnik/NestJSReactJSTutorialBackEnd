@@ -1,5 +1,5 @@
-import { IsUUID } from 'class-validator'
 import { Expose } from 'class-transformer'
+import { IsUUID } from 'class-validator'
 import { CreateDateColumn, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm'
 
 export class Base {

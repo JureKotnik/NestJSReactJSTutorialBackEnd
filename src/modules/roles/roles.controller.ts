@@ -1,22 +1,23 @@
 import {
+  BadRequestException,
+  Body,
   Controller,
-  Query,
+  Delete,
   Get,
   HttpCode,
   HttpStatus,
   Param,
-  Body,
-  Post,
   Patch,
-  Delete,
-  BadRequestException,
+  Post,
+  Query,
 } from '@nestjs/common'
+import { Role } from 'entities/role.entity'
 import { User } from 'entities/user.entity'
 import { PaginatedResult } from 'interfaces/paginated-result.interface'
 import { CreateUserDto } from 'modules/users/dto/create-user.dto'
-import { RolesService } from './roles.service'
-import { Role } from 'entities/role.entity'
+
 import { CreateUpdateRoleDto } from './dto/create-update-role.dts'
+import { RolesService } from './roles.service'
 
 @Controller('roles')
 export class RolesController {
