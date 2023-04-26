@@ -1,4 +1,4 @@
-import { Injectable, BadRequestException } from '@nestjs/common'
+import { Injectable, BadRequestException, InternalServerErrorException } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Permission } from 'entities/permission.entity'
 import { AbstractService } from 'modules/common/abstract.service'
@@ -9,7 +9,7 @@ import { CreateUpdateProductDto } from './dto/create-update-product.dto'
 
 @Injectable()
 export class ProductsService extends AbstractService {
-  constructor(@InjectRepository(Product) private readonly productsRepository: Repository<Permission>) {
+  constructor(@InjectRepository(Product) private readonly productsRepository: Repository<Product>) {
     super(productsRepository)
   }
 
@@ -23,15 +23,22 @@ export class ProductsService extends AbstractService {
     }
   }
 
-  async update(roleId: string, updateRoleDto: CreateUpdateRoleDto, permissionsIds: { id: string }[]): Promise<Role> {
-    const role = (await this.findById(roleId)) as Role
+  async update(productId: string, updateProductDto: CreateUpdateProductDto): Promise<Product> {
+    const product = (await this.findById(productId)) as Product
     try {
-      role.name = updateRoleDto.name
-      role.permissions = permissionsIds as Permission[]
-      return this.productsRepository.save(role)
+      product.title = updateProductDto.title
+      product.description = updateProductDto.description
+      product.price = updateProductDto.price
+      product.image = updateProductDto.image
+      return this.productsRepository.save(product)
     } catch (error) {
       Logging.error(error)
-      throw new InternalServerErrorException('Something went wrong while updating the role')
+      throw new InternalServerErrorException('Something went wrong while updating the product')
     }
+  }
+
+  async updateProductImage(id: string, image: string): Promise<Product> {
+    const product = await this.findById(id)
+    return this.update(product.id, { ...product, image })
   }
 }
